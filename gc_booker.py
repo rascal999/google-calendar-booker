@@ -71,7 +71,7 @@ def get_jira_ticket_title(jira_config,jira_key):
         print(f"Failed to fetch Jira issue title for {jira_key}. Status code: {response.status_code}")
         return None
 
-def get_free_slots(service, email_addresses, calendar_timezone, min_slots=30):
+def get_free_slots(service, email_addresses, calendar_timezone, min_slots=40):
     """Return a list of at least 5 free 30-minute slots on weekdays for the given email addresses.
     A day is only considered free if the first email address doesn't have more than five hours of meetings that day."""
 
