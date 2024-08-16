@@ -1,0 +1,4 @@
+[JIRA]
+BASE_URL = "https://xxx.atlassian.net"
+API_TOKEN = "ATATT.."
+EMAIL = "test@test.com"
