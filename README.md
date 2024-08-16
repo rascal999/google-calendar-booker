@@ -10,6 +10,7 @@ cd google-calendar-booker
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+mv work-email.txt.example work-email.txt # Update value in file to your email
 
 # Find free slots for given email address(es) and optionally book
 ./gc_booker.py --config config.ini --emails test@test.com --title "Some meeting title"
