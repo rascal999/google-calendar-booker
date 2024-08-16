@@ -240,6 +240,7 @@ if __name__ == '__main__':
     if not free_slots:
         print("No free slots available.")
     else:
+        print(args.emails)
         print("Available free slots:")
         for i, (start, end) in enumerate(free_slots):
             print(f"{i + 1}: {start.strftime('%Y-%m-%d %H:%M')} to {end.strftime('%H:%M')}")
