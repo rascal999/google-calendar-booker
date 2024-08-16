@@ -178,7 +178,7 @@ def book_meeting(jira_config, service, email_addresses, slot_start, slot_end, me
         jira_title = get_jira_ticket_title(jira_config,jira_key)
         if jira_title:
             # Update the meeting name to Jira key followed by the ticket title
-            meeting_name = f"{jira_key} - {jira_title}"
+            meeting_name = f"{jira_key} {jira_title}"
             jira_url = f"https://mangopay.atlassian.net/browse/{jira_key}"
             description = f"{jira_url}\n\n{description}"
 
