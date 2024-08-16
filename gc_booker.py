@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
 from __future__ import print_function
+import argparse
 import configparser
 import datetime
 import os.path
 import pytz
 import re
 import requests
-import argparse
+import signal
+import sys
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -212,7 +214,15 @@ def parse_arguments():
 
     return parser.parse_args()
 
+def handle_interrupt(signal, frame):
+    """Handle the Ctrl+C signal gracefully."""
+    print("\nProcess interrupted by user. Exiting...")
+    sys.exit(0)
+
 if __name__ == '__main__':
+    # Setup signal handler for Ctrl+C
+    signal.signal(signal.SIGINT, handle_interrupt)
+
     args = parse_arguments()
 
     # Load Jira configuration
@@ -234,17 +244,22 @@ if __name__ == '__main__':
         for i, (start, end) in enumerate(free_slots):
             print(f"{i + 1}: {start.strftime('%Y-%m-%d %H:%M')} to {end.strftime('%H:%M')}")
 
-        # Let user choose a slot
-        slot_choice = int(input("Select a slot by number: ")) - 1
+        try:
+            # Let user choose a slot
+            slot_choice = int(input("Select a slot by number: ")) - 1
 
-        if slot_choice < 0 or slot_choice >= len(free_slots):
-            print("Invalid choice.")
-        else:
-            slot_start, slot_end = free_slots[slot_choice]
-            #import pdb; pdb.set_trace()
+            if slot_choice < 0 or slot_choice >= len(free_slots):
+                print("Invalid choice.")
+            else:
+                slot_start, slot_end = free_slots[slot_choice]
+                #import pdb; pdb.set_trace()
 
-            # The meeting name is the Jira key
-            meeting_name = args.title
+                # The meeting name is the Jira key
+                meeting_name = args.title
 
-            # Book the meeting with the selected slot and offset
-            book_meeting(jira_config, service, args.emails, slot_start, slot_end, meeting_name, args.offset)
+                # Book the meeting with the selected slot and offset
+                book_meeting(jira_config, service, args.emails, slot_start, slot_end, meeting_name, args.offset)
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+        except KeyboardInterrupt:
+            handle_interrupt(None, None)
