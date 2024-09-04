@@ -1,6 +1,9 @@
 # google-calendar-booker
 Find and book free slots in your Google calendar
 
+# TODO
+1. Option to add Google Meet (default True)
+
 ```
 # Clone
 git clone https://github.com/rascal999/google-calendar-booker.git
