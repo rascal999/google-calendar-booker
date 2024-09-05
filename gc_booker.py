@@ -10,6 +10,7 @@ import re
 import requests
 import signal
 import sys
+import uuid
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -198,9 +199,18 @@ def book_meeting(jira_config, service, email_addresses, slot_start, slot_end, me
         'reminders': {
             'useDefault': True
         },
+        'conferenceData': {
+            'createRequest': {
+                'conferenceSolutionKey': {
+                    'type': 'hangoutsMeet'
+                },
+                'requestId': str(uuid.uuid4())  # Generate a unique UUID for the requestId
+            }
+        },
+        'colorId': '5'
     }
 
-    event = service.events().insert(calendarId='primary', body=event).execute()
+    event = service.events().insert(calendarId='primary', body=event, conferenceDataVersion=1).execute()
     print(f"Meeting booked: {event.get('htmlLink')}")
 
 def parse_arguments():
