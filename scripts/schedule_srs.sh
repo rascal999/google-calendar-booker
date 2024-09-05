@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source .venv/bin/activate
+
 if [[ "$#" -ne "1" ]]; then
     echo "ERROR: Ticket not specified."
     exit 1
@@ -19,4 +21,5 @@ fi
 SR=`scripts/jira_fetch_children.py --issue-type "Security Review" $1`
 
 # Given ticket ID of SR and epic reporter email, schedule meeting
+echo ./gc_booker.py --emails ${WORK_EMAIL} ${EMAIL_REPORTER} --title "${SR}"
 ./gc_booker.py --emails ${WORK_EMAIL} ${EMAIL_REPORTER} --title "${SR}"
